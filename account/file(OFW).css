@@ -249,3 +249,126 @@ nav a:hover {
 .user-icon {
     margin-top: 3rem; /* Reduced margin */
 }
+
+/* popup agreement */
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+  }
+  
+  .popup-content {
+    position: relative;
+    background-color: #1a1a1a;
+    margin: 15% auto;
+    padding: 20px;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .close {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .h2a {
+    color: white;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .green-text {
+    color: #4CAF50;
+  }
+  
+  /* Checkbox styles */
+  .checkbox-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 0 20px;
+  }
+  
+  .consent-text {
+    color: white;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  
+  /* Custom checkbox */
+  .checkbox-container input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-top: 3px;
+  }
+  
+  /* Button styles */
+.confirm-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.3s;
+    display: block;
+    margin: 20px auto;
+    width: fit-content;
+  }
+  
+  .submit-button:hover, .confirm-button:hover {
+    background-color: #45a049;
+  }
+  
+  /* Show animation */
+  .show {
+    display: block;
+    animation: fadeIn 0.3s;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+
+  .success-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #000000;
+    color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1001;
+    animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.success-content {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}

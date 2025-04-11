@@ -55,15 +55,63 @@ function handleUpload(requirementType) {
     input.onchange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            // Here you would typically handle the file upload to a server
             console.log(`Uploading ${file.name} for ${requirementType}`);
-            alert(`File "${file.name}" selected for ${requirementType}. Upload functionality would be implemented here.`);
         }
     };
     input.click();
 }
 
-// Initialize the requirements lists
+// Function to show success message
+function showSuccessMessage() {
+    const successPopup = document.createElement('div');
+    successPopup.className = 'success-popup';
+    successPopup.innerHTML = `
+        <div class="success-content">
+            <p>Submitted successfully!</p>
+        </div>
+    `;
+    document.body.appendChild(successPopup);
+    
+    // Remove the popup after 3 seconds
+    setTimeout(() => {
+        successPopup.remove();
+    }, 3000);
+}
+
+// Function to show GDPR popup
+function showGDPRPopup() {
+    const gdprPopup = document.getElementById('gdprPopup');
+    gdprPopup.style.display = 'block';
+    
+    // Add event listener to close button
+    const closeBtn = gdprPopup.querySelector('.close');
+    closeBtn.addEventListener('click', () => {
+        gdprPopup.style.display = 'none';
+    });
+    
+    // Add event listener to confirm button
+    const confirmBtn = document.getElementById('confirmBtn');
+    confirmBtn.addEventListener('click', () => {
+        const isChecked = document.getElementById('gdprConsent').checked;
+        if (isChecked) {
+            // Hide GDPR popup
+            gdprPopup.style.display = 'none';
+            // Show success message
+            showSuccessMessage();
+        } else {
+            alert('Please agree to the GDPR terms before submitting.');
+        }
+    });
+    
+    // Close popup when clicking outside of it
+    window.addEventListener('click', (event) => {
+        if (event.target === gdprPopup) {
+            gdprPopup.style.display = 'none';
+        }
+    });
+}
+
+// Initialize the requirements lists and set up event listeners
 document.addEventListener('DOMContentLoaded', () => {
     const applicantList = document.getElementById('applicant-requirements');
     const coBorrowerList = document.getElementById('coborrower-requirements');
@@ -76,16 +124,20 @@ document.addEventListener('DOMContentLoaded', () => {
         coBorrowerList.appendChild(createRequirementCard(req));
     });
 
-    // Add submit button functionality
+    // Update submit button functionality to show GDPR popup
     const submitButton = document.querySelector('.submit-button');
-    submitButton.addEventListener('click', () => {
-        alert('Form submission would be implemented here.');
+    submitButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        showGDPRPopup();
     });
 
-    const backButton = document.querySelector('.back-button'); // Assuming you have a back button with class 'back-button'
+    const backButton = document.querySelector('.back-button');
     if (backButton) {
         backButton.addEventListener('click', () => {
             window.location.href = 'form(OFW).html';
         });
     }
+    
+    // Initially hide the GDPR popup
+    document.getElementById('gdprPopup').style.display = 'none';
 });

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="applicants.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header>
+        <div class="banner-green-light"></div>
+        <div class="banner-green-dark"></div>
+        <div class="header-content">
+          <h1>ADMIN</h1>
+        </div>
+      </header>
+
+      <aside class="sidebar">
+        <img class="logo" src="images/image 1.png" alt="Pinoy Luminaries Logo" />
+        <nav class="nav-menu">
+          <a href="dashboard.html" class="menu-item"><span>DASHBOARD</span></a>
+          <a href="applications.html" class="menu-item"><span>APPLICATIONS</span></a>
+          <a href="applicants.html" class="menu-item active"><span>APPLICANTS</span></a>
+          <a href="financial.html" class="menu-item"><span>FINANCIAL REPORT</span></a>
+          <a href="manage.html" class="menu-item"><span>MANAGE USERS</span></a>
+        </nav>
+      </aside>
+
+
+      <!-- Main content -->
+      <main class="main-content">
+        <div class="search-bar">
+          <input type="text" class="search-input" />
+        </div>
+
+        <div class="tabs-container">
+            <div class="tabs">
+                <button class="tab active" data-type="ofw">OFW</button>
+                <button class="tab" data-type="student">STUDENT</button>
+            </div>
+            
+            <div class="status-tabs">
+                <button class="status-tab active" data-status="all">ALL</button>
+                <button class="status-tab" data-status="approved">APPROVED</button>
+                <button class="status-tab" data-status="pending">PENDING</button>
+                <button class="status-tab" data-status="declined">DECLINED</button>
+            </div>
+        </div>
+        
+        <div class="table-container">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>APPLICATION NO.</th>
+                            <th>DETAILS</th>
+                            <th>STATUS</th>
+                            <th>DATE</th>
+                            <th class="action-header">ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody id="applicationTableBody">
+                        <!-- Table content will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+    </main>
+</div>
+</div>
+    <script src="applicants.js"></script>
+  </body>
+</html>

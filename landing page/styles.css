@@ -10,9 +10,11 @@ body {
     background-color: #fffcfc;
     overflow-x: hidden;
 }
+
 ::-webkit-scrollbar {
     display: none;
 }
+
 /* Header styles */
 header {
     display: flex;
@@ -53,7 +55,7 @@ nav a {
 }
 
 nav a.active {
-    color: #4CAF50; /* Green color - change to your preference */
+    color: #4CAF50;
     font-weight: 700;
     position: relative;
 }
@@ -65,7 +67,7 @@ nav a.active::after {
     left: 0;
     width: 100%;
     height: 2px;
-    background-color: #4CAF50; /* Same as text color */
+    background-color: #4CAF50;
     animation: underline 0.3s ease-out;
 }
 
@@ -131,7 +133,7 @@ nav a:hover:not(.active) {
     top: 0;
     left: 0;
     width: 100%;
-    height: 104%;
+    height: 110%;
     background: linear-gradient(
         to bottom, 
         rgba(0, 0, 0, 0.226) 0%, 
@@ -194,12 +196,13 @@ nav a:hover:not(.active) {
     padding: 4rem;
     background-color: #fff;
 }
-.black{
+
+.black {
     position: relative;
     width: 1000px;
     height: 7px;
-
 }
+
 .section-header {
     display: flex;
     justify-content: space-between;
@@ -240,7 +243,7 @@ nav a:hover:not(.active) {
     justify-content: space-between;
     gap: 2rem;
     margin-top: 3rem;
-    margin-left:50px ;
+    margin-left: 50px;
 }
 
 .stat-item {
@@ -261,7 +264,7 @@ nav a:hover:not(.active) {
 
 /* About Section */
 .about {
-    background:linear-gradient(45deg, #000000, #011301, #024e02);
+    background: linear-gradient(45deg, #000000, #011301, #024e02);
     color: white;
     padding: 4rem;
     position: relative;
@@ -311,11 +314,10 @@ nav a:hover:not(.active) {
     top: -50px;
 }
 
-
 /* Register Section */
 .register {
     background-image: url('images/image\ \(5\).png');
-    background-size: cover; 
+    background-size: cover;
     height: 700px;
     background-position: center;
     padding: 4rem;
@@ -336,7 +338,7 @@ nav a:hover:not(.active) {
 
 .register-content {
     display: flex;
-    justify-content: space-between; /* Better than negative gap */
+    justify-content: space-between;
     align-items: center;
     position: relative;
     z-index: 1;
@@ -368,7 +370,7 @@ nav a:hover:not(.active) {
 #slider figure img {
     width: 25%;
     height: 425px;
-    object-fit: cover; /* Ensures images maintain aspect ratio */
+    object-fit: cover;
     float: left;
 }
 
@@ -423,6 +425,7 @@ nav a:hover:not(.active) {
 .green {
     color: #3dd23d;
 }
+
 /* Contact Section */
 .contact {
     background-image: url('images/Rectangle\ 28.png');
@@ -432,7 +435,6 @@ nav a:hover:not(.active) {
     min-height: 800px;
     margin-top: -100px;
     position: relative;
-
 }
 
 .contact h2 {
@@ -532,11 +534,11 @@ nav a:hover:not(.active) {
     html {
         font-size: 14px;
     }
-    
+
     .hero-content {
         left: 80px;
     }
-    
+
     .about {
         margin: 3rem 2rem;
     }
@@ -546,23 +548,22 @@ nav a:hover:not(.active) {
     header {
         padding: 1rem 2rem;
     }
-    
+
     .hero-content {
         left: 40px;
         width: 500px;
     }
-    
+
     .image-gallery {
         flex-wrap: wrap;
         justify-content: center;
     }
-    
+
     .about-content {
         width: 100%;
     }
-    
+
     .about-image {
         display: none;
     }
 }
-

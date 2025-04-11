@@ -64,7 +64,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Check for stored active nav on page load
     const storedActiveNav = localStorage.getItem('activeNav');
     if (storedActiveNav) {
         setActiveNav(storedActiveNav);
@@ -72,8 +71,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Update active nav on scroll (optional)
     window.addEventListener('scroll', function() {
-        // You can keep this if you want scroll-based highlighting too
-        // But it might conflict with the click-based persistence
     });
 });
 

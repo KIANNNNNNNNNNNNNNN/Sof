@@ -80,34 +80,50 @@ function closeModal() {
     modal.style.display = 'none';
 }
 
+// Function to handle card redirects
+function redirectToForm(cardType) {
+    // Convert to uppercase for consistent filenames
+    const type = cardType.toUpperCase();
+    // Redirect to the corresponding form page
+    window.location.href = `form(${type}).html`;
+}
+
 // Event listeners
 document.addEventListener('DOMContentLoaded', function() {
     // Get the apply now button and add click handler
     const applyButton = document.querySelector('.start-btn');
-    applyButton.addEventListener('click', openModal);
+    if (applyButton) {
+        applyButton.addEventListener('click', openModal);
+    }
 
     const modal = document.getElementById('loanModal');
-    const modalContent = modal.querySelector('.modal-content');
+    if (modal) {
+        const modalContent = modal.querySelector('.modal-content');
 
-    // Close modal when clicking outside
-    modal.addEventListener('click', function(e) {
-        if (e.target === modal) {
-            closeModal();
-        }
-    });
-
-    // Prevent closing when clicking inside the modal
-    modalContent.addEventListener('click', function(e) {
-        e.stopPropagation();
-    });
-
-    // Add click handlers for the cards
-    const cards = document.querySelectorAll('.loan-card');
-    cards.forEach(card => {
-        card.addEventListener('click', function() {
-            console.log('Card clicked:', this.querySelector('h2').textContent);
+        // Close modal when clicking outside
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeModal();
+            }
         });
-    });
+
+        // Prevent closing when clicking inside the modal
+        if (modalContent) {
+            modalContent.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        }
+
+        // Add click handlers for the cards
+        const cards = document.querySelectorAll('.loan-card');
+        cards.forEach(card => {
+            card.addEventListener('click', function() {
+                // Get the card type from the h2 text content
+                const cardType = this.querySelector('h2').textContent.trim();
+                redirectToForm(cardType);
+            });
+        });
+    }
 });
 
 document.getElementById('dashboard').addEventListener('click', function() {
