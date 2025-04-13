@@ -1,7 +1,9 @@
 <?php
+session_start(); // Start the session to store success message
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $host = "localhost";
-    $dbname = "pinoyluminaries";  // Or change to "signup" if needed
+    $dbname = "pinoyluminariesdb";  // Or change to "signup" if needed
     $username = "root";
     $password = "";
 
@@ -20,13 +22,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error = "Passwords do not match.";
     } else {
         $hashedPassword = password_hash($password1, PASSWORD_DEFAULT);
-        $stmt = $conn->prepare("INSERT INTO users (name, email, password) VALUES (?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO users_signedup (name, email, password) VALUES (?, ?, ?)");
         $stmt->bind_param("sss", $name, $email, $hashedPassword);
 
         if ($stmt->execute()) {
-            $success = "Signup successful!";
+            $_SESSION['signup_success'] = "Signup successful!";
+            header("Location: signup.php"); // Redirect to display the success alert
+            exit;
         } else {
-            $error = "Error: " . $stmt->error . " | SQL Error: " . $conn->error;
+            $_SESSION['error'] = "Error: " . $stmt->error . " | SQL Error: " . $conn->error;
+            header("Location: signup.php"); // Redirect to show error
+            exit;
         }
 
         $stmt->close();
@@ -36,7 +42,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,6 +49,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up Page</title>
     <link rel="stylesheet" href="signup.css">
+    <!-- Add SweetAlert CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <div class="container">
@@ -68,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <span>BACK</span>
             </div>
 
-            <form id="signupForm" onsubmit="handleSubmit(event)">
+            <form id="signupForm" method="POST" action="signup.php">
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input type="text" id="name" name="name" required>
@@ -99,6 +106,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </form>
         </div>
     </div>
-    <script src="signup.js"></script>
+
+    <!-- SweetAlert Logic -->
+    <script>
+        <?php if (isset($_SESSION['signup_success'])): ?>
+            Swal.fire({
+                title: 'Success!',
+                text: '<?php echo $_SESSION['signup_success']; ?>',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+            <?php unset($_SESSION['signup_success']); ?>
+        <?php elseif (isset($_SESSION['error'])): ?>
+            Swal.fire({
+                title: 'Error!',
+                text: '<?php echo $_SESSION['error']; ?>',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+            <?php unset($_SESSION['error']); ?>
+        <?php endif; ?>
+    </script>
 </body>
 </html>

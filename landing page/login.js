@@ -92,5 +92,5 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 document.getElementById('submitButton').addEventListener('click', function() {
-    window.location.href = 'SOFENG/account.html'; 
+    window.location.href = '../admin/dashboard.php'; 
 });

@@ -1,64 +1,81 @@
 <?php
-// Include the database connection
-include('db_connection.php');
-
-// Start the session
+ob_start(); // Start output buffering
 session_start();
+
+// Database connection
+$host = 'localhost';
+$dbname = 'pinoyluminariesdb';
+$username = 'root';
+$password = '';
+$conn = new mysqli($host, $username, $password, $dbname);
+
+// Check if the connection was successful
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Dummy admin credentials
+$correct_email = 'admin@gmail.com';
+$correct_password = 'admin123';
+
+// Flag to track success
+$login_successful = false;
+$user_role = ''; // admin or user
 
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get form data
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    // Check if the credentials match the admin credentials (hardcoded)
-    if ($email == 'admin' && $password == 'admin123') {
-        // Admin login is successful
-        $_SESSION['user_id'] = 1; // Set user_id to 1 for admin
-        $_SESSION['email'] = 'admin';
-        $_SESSION['role'] = 'admin'; // Set role to admin
-
-        // Redirect to the account page
-        header("Location: account.html");
-        exit;
-    }
-
-    // Query to check if the user exists for normal users
-    $query = "SELECT * FROM users WHERE email = '$email'";
-    $result = mysqli_query($conn, $query);
-
-    // Check if user exists
-    if ($result && mysqli_num_rows($result) > 0) {
-        $user = mysqli_fetch_assoc($result);
-
-        // Verify the password
-        if (password_verify($password, $user['password'])) {
-            // Correct credentials, set session and redirect to account page
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['email'] = $user['email'];
-            $_SESSION['role'] = $user['role'];
-
-            // Redirect to the account page
-            header("Location: account.php");
-            exit;
-        } else {
-            // Invalid credentials
-            echo "Invalid email or password.";
-        }
+    // Check if email and password match the admin credentials
+    if ($email === $correct_email && $password === $correct_password) {
+        $_SESSION['user_id'] = 1;
+        $_SESSION['email'] = $email;
+        $_SESSION['role'] = 'admin';
+        $user_role = 'admin';
+        $login_successful = true;
+        // Redirect will happen after SweetAlert
     } else {
-        echo "User does not exist.";
+        // Check if email and password match a user in the users_signedup table
+        $stmt = $conn->prepare("SELECT * FROM users_signedup WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows > 0) {
+            $user = $result->fetch_assoc();
+            
+            // Verify password
+            if (password_verify($password, $user['password'])) {
+                // Password matches, start session for the user
+                $_SESSION['user_id'] = $user['id'];  // Assuming 'id' is the primary key for users_signedup
+                $_SESSION['email'] = $email;
+                $_SESSION['role'] = 'user';
+                $user_role = 'user';
+                $login_successful = true;
+                // Redirect will happen after SweetAlert
+            } else {
+                $error = "Invalid email or password.";
+            }
+        } else {
+            $error = "No account found with this email.";
+        }
     }
 }
-?>
 
+// Close the connection
+$conn->close();
+?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up Page</title>
+    <title>Login Page</title>
     <link rel="stylesheet" href="login.css">
+    <!-- SweetAlert CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <div class="container">
@@ -71,37 +88,67 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </div>
 
-<!-- Right side -->
-<div class="right-side">
-    <div class="back-button">
-        <button onclick="goBack()">
-            <svg width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M19 12H5M12 19l-7-7 7-7"/>
-            </svg>
-        </button>
-        <span>BACK</span>
+        <!-- Right side -->
+        <div class="right-side">
+            <div class="back-button">
+                <button onclick="goBack()">
+                    <svg width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                </button>
+                <span>BACK</span>
+            </div>
+
+            <form method="POST" action="">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+
+                <div class="progress-bar"></div>
+
+                <button type="submit" class="submit-button" id="submitButton">
+                    <svg width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </button>
+            </form>
+
+            <?php if (isset($error)): ?>
+                <p style="color:red; text-align:center;"><?= $error ?></p>
+            <?php endif; ?>
+        </div>
     </div>
 
-    <form>
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" required>
-        </div>
+    <script>
+    // Check if login was successful and show SweetAlert
+    <?php if ($login_successful): ?>
+        <?php if ($user_role == 'admin'): ?>
+            Swal.fire({
+                title: 'Admin Login Successful!',
+                icon: 'success',
+                confirmButtonText: 'Okay',
+                confirmButtonColor: '#28a745' // Green color for the button
+            }).then(() => {
+                window.location.href = '../admin/dashboard.php'; // Redirect to admin dashboard
+            });
+        <?php elseif ($user_role == 'user'): ?>
+            Swal.fire({
+                title: 'Login Successful!',
+                icon: 'success',
+                confirmButtonText: 'Okay',
+                confirmButtonColor: '#28a745' // Green color for the button
+            }).then(() => {
+                window.location.href = '../account/account.php'; // Redirect to user account page
+            });
+        <?php endif; ?>
+    <?php endif; ?>
+</script>
 
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" id="password" required>
-        </div>
-
-        <div class="progress-bar"></div>
-
-        <button type="submit" class="submit-button" id="submitButton">
-            <svg width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
-        </button>
-    </form>
-</div>
-    <script src="login.js"></script>
 </body>
 </html>
