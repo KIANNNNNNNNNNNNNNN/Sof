@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 document.getElementById('signupButton').addEventListener('click', function() {
-    window.location.href = 'signup.html'; 
+    window.location.href = 'signup.php'; 
 });
 
 document.getElementById('loginButton').addEventListener('click', function() {

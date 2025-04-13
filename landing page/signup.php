@@ -1,3 +1,42 @@
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $host = "localhost";
+    $dbname = "pinoyluminaries";  // Or change to "signup" if needed
+    $username = "root";
+    $password = "";
+
+    $conn = new mysqli($host, $username, $password, $dbname);
+
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    $name = $_POST['name'] ?? '';
+    $email = $_POST['email'] ?? '';
+    $password1 = $_POST['password'] ?? '';
+    $password2 = $_POST['confirmPassword'] ?? '';
+
+    if ($password1 !== $password2) {
+        $error = "Passwords do not match.";
+    } else {
+        $hashedPassword = password_hash($password1, PASSWORD_DEFAULT);
+        $stmt = $conn->prepare("INSERT INTO users (name, email, password) VALUES (?, ?, ?)");
+        $stmt->bind_param("sss", $name, $email, $hashedPassword);
+
+        if ($stmt->execute()) {
+            $success = "Signup successful!";
+        } else {
+            $error = "Error: " . $stmt->error . " | SQL Error: " . $conn->error;
+        }
+
+        $stmt->close();
+    }
+
+    $conn->close();
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,22 +71,22 @@
             <form id="signupForm" onsubmit="handleSubmit(event)">
                 <div class="form-group">
                     <label for="name">Name</label>
-                    <input type="text" id="name" required>
+                    <input type="text" id="name" name="name" required>
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" id="email" required>
+                    <input type="email" id="email" name="email" required>
                 </div>
 
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" required>
+                    <input type="password" id="password" name="password" required>
                 </div>
 
                 <div class="form-group">
                     <label for="confirmPassword">Confirm Password</label>
-                    <input type="password" id="confirmPassword" required>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
                 </div>
 
                 <div class="progress-bar"></div>
