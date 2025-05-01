@@ -82,10 +82,8 @@ function closeModal() {
 
 // Function to handle card redirects
 function redirectToForm(cardType) {
-    // Convert to uppercase for consistent filenames
-    const type = cardType.toUpperCase();
-    // Redirect to the corresponding form page
-    window.location.href = `form(${type}).html`;
+    const type = cardType.toLowerCase(); // Keep it lowercase
+    window.location.href = `form(${type}).html`; // Use correct naming convention
 }
 
 // Event listeners
