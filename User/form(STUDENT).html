@@ -20,7 +20,7 @@
         <div class="title-banner">
             <h1><span class="green">LOAN APPLICATION</span> FORM <span class="green-text">(STUDENT)</span></h1>
         </div>
-            
+
         <form id="loanForm">
 
             <!-- Step 1: Personal Information -->
@@ -123,7 +123,9 @@
                         <input type="date" required>
                     </div>
                 </div>
-                <button type="button" class="next-btn">Next</button>
+                <div class="step-navigation">
+                    <button class="next-btn">Next</button>
+                </div>
             </div>
         
             <!-- Step 2: Foreign Employment -->
@@ -191,8 +193,10 @@
                         <input type="text" required>
                     </div>
                 </div>
-                <button type="button" class="prev-btn">Previous</button>
-                <button type="button" class="next-btn">Next</button>
+                <div class="step-navigation">
+                    <button class="prev-btn">Previous</button>
+                    <button class="next-btn">Next</button>
+                </div>
             </div>
         
             <!-- Step 3: Family Background -->
@@ -247,8 +251,10 @@
                     <div class="references-container" id="referencesContainer"></div>
                     <button type="button" class="add-btn" id="addReference">Add Reference</button>
                 </div>
-                <button type="button" class="prev-btn">Previous</button>
-                <button type="button" class="next-btn">Next</button>
+                <div class="step-navigation">
+                    <button class="prev-btn">Previous</button>
+                    <button class="next-btn">Next</button>
+                </div>
             </div>
         
             <!-- Step 4: Co-Borrower Info -->
@@ -296,8 +302,10 @@
                         <input type="number">
                     </div>
                 </div>
-                <button type="button" class="prev-btn">Previous</button>
-                <button type="button" class="next-btn">Next</button>
+                <div class="step-navigation">
+                    <button class="prev-btn">Previous</button>
+                    <button class="next-btn">Next</button>
+                </div>
             </div>
         
             <!-- Step 5: Loan Details -->
@@ -337,10 +345,11 @@
                         </div>
                     </div>
                 </div>
-                <button type="button" class="prev-btn">Previous</button>
-                <button type="submit" class="submit-btn">Submit</button>
+                <div class="step-navigation">
+                    <button class="prev-btn">Previous</button>   
+                </div> 
+                <button type="submit" class="submit-btn">Submit</button> 
             </div>
-        
         </form>
         
     </div>

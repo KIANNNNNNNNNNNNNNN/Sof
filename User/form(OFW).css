@@ -264,7 +264,7 @@ button:disabled {
     text-align: center;
     font-size: 24px;
     margin: 20px 0;
-    color: white;
+    color: rgb(0, 0, 0);
 }
 
 .method-grid {
@@ -290,7 +290,7 @@ button:disabled {
 }
 
 .method.active {
-    background: rgba(61, 210, 61, 0.1);
+    background: rgba(123, 252, 140, 0.952);
 }
 
 .method img {
@@ -357,4 +357,26 @@ button:disabled {
     padding: 5px 10px;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.step-navigation {
+    display: flex;
+    justify-content: space-between;
+    width: fit-content;
+    gap: 40px;
+    margin: 40px auto; /* Center the flex container */
+}
+
+.prev-btn,
+.next-btn {
+    background: var(--primary-green);
+    color: white;
+    border: none;
+    padding: 10px 20px; /* Same as .submit-btn */
+    font-size: 20px;     /* Same as .submit-btn */
+    font-weight: bold;   /* Same as .submit-btn */
+    border-radius: 15px; /* Same as .submit-btn */
+    cursor: pointer;
+    transition: background 0.2s ease;
+
 }
