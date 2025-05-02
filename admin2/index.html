@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Management System</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>Loan Admin</h2>
+                <button id="sidebar-toggle" class="sidebar-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M15 18l-6-6 6-6"></path>
+                    </svg>
+                </button>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="index.html" class="nav-item active">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="9"></rect>
+                        <rect x="14" y="3" width="7" height="5"></rect>
+                        <rect x="14" y="12" width="7" height="9"></rect>
+                        <rect x="3" y="16" width="7" height="5"></rect>
+                    </svg>
+                    <span>Dashboard</span>
+                </a>
+                <a href="applications.html" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
+                    <span>Applications</span>
+                </a>
+                <a href="financial.html" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="1" x2="12" y2="23"></line>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                    </svg>
+                    <span>Financial Report</span>
+                </a>
+                <button class="logout-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                    <span>Logout</span>
+                  </button>
+            </nav>
+        </aside>
+
+        <main class="content">
+            <header class="content-header">
+                <h1>Dashboard</h1>
+                <div class="user-menu">
+                    <span class="user-name">Admin User</span>
+                    </div>
+            </header>
+
+            <div class="dashboard-container">
+                <div class="stats-summary">
+                    <div class="stats-card">
+                        <div class="stats-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                        </div>
+                        <div class="stats-data">
+                            <h3>Total Applications</h3>
+                            <p class="total-applications">0</p>
+                        </div>
+                    </div>
+                    <div class="stats-card">
+                        <div class="stats-icon approved">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                        </div>
+                        <div class="stats-data">
+                            <h3>Approved</h3>
+                            <p class="approved-applications">0</p>
+                        </div>
+                    </div>
+                    <div class="stats-card">
+                        <div class="stats-icon pending">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                        </div>
+                        <div class="stats-data">
+                            <h3>Pending</h3>
+                            <p class="pending-applications">0</p>
+                        </div>
+                    </div>
+                    <div class="stats-card">
+                        <div class="stats-icon declined">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="15" y1="9" x2="9" y2="15"></line>
+                                <line x1="9" y1="9" x2="15" y2="15"></line>
+                            </svg>
+                        </div>
+                        <div class="stats-data">
+                            <h3>Declined</h3>
+                            <p class="declined-applications">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category-summary">
+                    <div class="summary-card">
+                        <h2>OFW Applications</h2>
+                        <div class="summary-content">
+                            <div class="chart-container">
+                                <canvas id="ofwChart"></canvas>
+                            </div>
+                            <div class="stat-breakdown">
+                                <div class="stat-item">
+                                    <span class="stat-label">Total</span>
+                                    <span class="stat-value ofw-total">0</span>
+                                </div>
+                                <div class="stat-item approved">
+                                    <span class="stat-label">Approved</span>
+                                    <span class="stat-value ofw-approved">0</span>
+                                </div>
+                                <div class="stat-item pending">
+                                    <span class="stat-label">Pending</span>
+                                    <span class="stat-value ofw-pending">0</span>
+                                </div>
+                                <div class="stat-item declined">
+                                    <span class="stat-label">Declined</span>
+                                    <span class="stat-value ofw-declined">0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="summary-card">
+                        <h2>STUDENT Applications</h2>
+                        <div class="summary-content">
+                            <div class="chart-container">
+                                <canvas id="studentChart"></canvas>
+                            </div>
+                            <div class="stat-breakdown">
+                                <div class="stat-item">
+                                    <span class="stat-label">Total</span>
+                                    <span class="stat-value student-total">0</span>
+                                </div>
+                                <div class="stat-item approved">
+                                    <span class="stat-label">Approved</span>
+                                    <span class="stat-value student-approved">0</span>
+                                </div>
+                                <div class="stat-item pending">
+                                    <span class="stat-label">Pending</span>
+                                    <span class="stat-value student-pending">0</span>
+                                </div>
+                                <div class="stat-item declined">
+                                    <span class="stat-label">Declined</span>
+                                    <span class="stat-value student-declined">0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recent-applications">
+                    <h2>Recent Applications</h2>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Application No.</th>
+                                    <th>Applicant Name</th>
+                                    <th>Type</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recent-applications-table">
+                                <!-- Data will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal for viewing application details -->
+    <div class="modal" id="applicationModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Application Details</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body" id="applicationModalBody">
+                <!-- Application details will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
