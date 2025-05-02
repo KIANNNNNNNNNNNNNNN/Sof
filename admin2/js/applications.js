@@ -248,6 +248,7 @@ function populateFilesList(application) {
                 <div class="file-name">${file.name}</div>
                 <div class="file-actions">
                     <button class="btn secondary" onclick="viewFile('${file.name}')">View</button>
+
                 </div>
             </div>
         `;
