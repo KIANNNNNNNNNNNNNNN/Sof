@@ -231,9 +231,14 @@ function populateFilesList(application) {
     
     // Example files (in a real application, these would come from the database)
     const files = [
-        { name: 'Valid ID.pdf', type: 'pdf' },
-        { name: 'Passport.jpg', type: 'image' },
-        { name: 'Employment Contract.pdf', type: 'pdf' }
+        { name: 'Passport', type: 'image' },
+        { name: 'Visa', type: 'image' },
+        { name: 'OEC', type: 'image' },
+        { name: 'Proof Of Residence in Philippines', type: 'image' },
+        { name: 'NBI', type: 'image' },
+        { name: 'Government ID', type: 'image' },
+        { name: 'Payslip', type: 'image' },
+        { name: 'Business Permit', type: 'image' }
     ];
     
     let fileContent = '';
@@ -243,7 +248,6 @@ function populateFilesList(application) {
                 <div class="file-name">${file.name}</div>
                 <div class="file-actions">
                     <button class="btn secondary" onclick="viewFile('${file.name}')">View</button>
-                    <button class="btn secondary" onclick="downloadFile('${file.name}')">Download</button>
                 </div>
             </div>
         `;
