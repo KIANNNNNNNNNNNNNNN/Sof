@@ -18,6 +18,19 @@ const coBorrowerRequirements = [
     },
 ];
 
+// Function to show a temporary notification popup
+function showUploadNotification() {
+    const notification = document.createElement('div');
+    notification.className = 'upload-notification';
+    notification.textContent = 'File uploaded successfully!';
+    document.body.appendChild(notification);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
+}
+
 // Function to create requirement cards
 function createRequirementCard(requirement) {
     const card = document.createElement('div');
@@ -39,7 +52,21 @@ function createRequirementCard(requirement) {
     const uploadButton = document.createElement('button');
     uploadButton.className = 'upload-button';
     uploadButton.textContent = 'UPLOAD';
-    uploadButton.addEventListener('click', () => handleUpload(requirement.title));
+    
+    // Store the original button text
+    uploadButton.dataset.originalText = 'UPLOAD';
+    
+    // Add click handler for the button
+    uploadButton.addEventListener('click', (e) => {
+        // If button says "VIEW", prevent file dialog and just show a message
+        if (uploadButton.textContent === 'VIEW') {
+            alert('Viewing uploaded file');
+            return;
+        }
+        
+        // Otherwise proceed with upload
+        handleUpload(requirement.title, uploadButton);
+    });
 
     card.appendChild(titleDiv);
     card.appendChild(uploadButton);
@@ -48,7 +75,7 @@ function createRequirementCard(requirement) {
 }
 
 // Function to handle file upload
-function handleUpload(requirementType) {
+function handleUpload(requirementType, buttonElement) {
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = '.pdf,.doc,.docx,.jpg,.jpeg,.png';
@@ -56,6 +83,14 @@ function handleUpload(requirementType) {
         const file = e.target.files[0];
         if (file) {
             console.log(`Uploading ${file.name} for ${requirementType}`);
+            // Change button text to "VIEW"
+            buttonElement.textContent = 'VIEW';
+            
+            // Store the file name in a data attribute
+            buttonElement.dataset.fileName = file.name;
+            
+            // Show upload notification
+            showUploadNotification();
         }
     };
     input.click();
