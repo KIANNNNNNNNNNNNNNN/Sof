@@ -8,6 +8,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $conn = new mysqli($host, $username, $password, $dbname);
 
+    session_start();
+    if (!isset($_SESSION['user_id'])) {
+    die("Please login first");
+    }
+    $userId = $_SESSION['user_id'];
+
     // Check database connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
@@ -18,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nickname = trim($_POST['nickname'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $messenger = trim($_POST['messenger'] ?? '');
-    $contactNo = trim($_POST['contactNumber'] ?? '');
+    $contactNo = trim($_POST['contact_no'] ?? '');
     $birthday = $_POST['birthday'] ?? null;
     $birthplace = trim($_POST['birthplace'] ?? '');
     $gender = trim($_POST['gender'] ?? '');
@@ -27,11 +33,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $citizenship = trim($_POST['citizenship'] ?? '');
     $address = trim($_POST['phAddress'] ?? '');
     $barangay = trim($_POST['barangay'] ?? '');
-    $city = trim($_POST['city'] ?? '');
+    $city = trim($_POST['city_municipality'] ?? '');
     $province = trim($_POST['province'] ?? '');
     $postalCode = trim($_POST['postalCode'] ?? '');
     $sssNumber = trim($_POST['sssNumber'] ?? '');
-    $tinNumber = trim($_POST['tinNumber'] ?? '');
+    $tinNumber = trim($_POST['tin'] ?? '');
     $passportNumber = trim($_POST['passportNumber'] ?? '');
     $passportIssueDate = $_POST['passportIssueDate'] ?? null;
     $passportExpiryDate = $_POST['passportExpiryDate'] ?? null;
@@ -52,26 +58,73 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $preferredReleaseMethod = trim($_POST['preferredReleaseMethod'] ?? '');
     $applicationDate = date("Y-m-d H:i:s");
 
-    // Insert data into the database
-    $stmt = $conn->prepare("INSERT INTO ofwloan_applications (
-        full_name, nickname, email, messenger, contact_no, birthday, birthplace, gender, age, civil_status, citizenship, address, barangay, city_municipality, province, postal_code, sss_number, tin, passport_number, passport_issue_date, passport_expiry_date, visa_number, oec_number, destination_country, employer_name, employer_contact, contract_years, contract_months, job_title, salary, allowance, employer_address, loan_amount, loan_purpose, preferred_bank, preferred_release_method, application_date
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    // Modify your SQL statement to include the id field
+// Modify the SQL statement to match exactly what you're inserting
+$stmt = $conn->prepare("INSERT INTO ofwloan_applications (
+    id, full_name, nickname, email, messenger, contact_no, birthday, birthplace, 
+    gender, age, civil_status, citizenship, address, barangay, 
+    city_municipality, province, postal_code, sss_number, tin, 
+    passport_number, passport_issue_date, passport_expiry_date, 
+    visa_number, oec_number, destination_country, employer_name, 
+    employer_contact, contract_years, contract_months, job_title, 
+    salary, allowance, employer_address, loan_amount, loan_purpose, 
+    preferred_bank, preferred_release_method, application_date
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-    $stmt->bind_param(
-        "ssssssssisssssssssssssssssssssssss",
-        $fullName, $nickname, $email, $messenger, $contactNo, $birthday, $birthplace, $gender, $age, $civilStatus, $citizenship, $address, $barangay, $city, $province, $postalCode, $sssNumber, $tinNumber, $passportNumber, $passportIssueDate, $passportExpiryDate, $visaNumber, $oecNumber, $destinationCountry, $employerName, $employerContact, $contractYears, $contractMonths, $jobTitle, $monthlySalary, $allowance, $employerAddress, $loanAmount, $loanPurpose, $bankName, $preferredReleaseMethod, $applicationDate
-    );
+// Make sure all variables are set in the same order as the SQL statement
+$stmt->bind_param(
+    "isssssssisssssssssssssssssiiisddsddsss",
+    $userId,
+    $fullName, 
+    $nickname, 
+    $email,
+    $messenger,
+    $contactNo, 
+    $birthday, 
+    $birthplace, 
+    $gender, 
+    $age, 
+    $civilStatus, 
+    $citizenship, 
+    $address, 
+    $barangay, 
+    $city, 
+    $province, 
+    $postalCode, 
+    $sssNumber, 
+    $tinNumber, 
+    $passportNumber, 
+    $passportIssueDate, 
+    $passportExpiryDate, 
+    $visaNumber, 
+    $oecNumber, 
+    $destinationCountry, 
+    $employerName, 
+    $employerContact, 
+    $contractYears, 
+    $contractMonths, 
+    $jobTitle, 
+    $monthlySalary, 
+    $allowance, 
+    $employerAddress, 
+    $loanAmount, 
+    $loanPurpose, 
+    $bankName, 
+    $preferredReleaseMethod, 
+    $applicationDate
+);
 
-    if ($stmt->execute()) {
-        // Show success message and redirect to dashboard
-        echo "<script>
-                alert('Application successfully submitted!');
-                window.location.href = 'dashboard.php';
-              </script>";
-        exit();
-    } else {
-        echo "<script>alert('Error: " . $stmt->error . "');</script>";
-    }
+if ($stmt->execute()) {
+    echo "<script>
+            alert('Application successfully submitted!');
+            window.location.href = 'dashboard.php';
+          </script>";
+    exit();
+} else {
+    echo "<script>alert('Error details: " . mysqli_error($conn) . "');</script>";
+    // Add error logging
+    error_log("Database Error: " . mysqli_error($conn));
+}
 
     $stmt->close();
     $conn->close();
@@ -127,7 +180,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <div class="form-group">
             <label for="contactNumber">Contact No.:</label>
-            <input type="tel" id="contactNumber" name="contactNumber" placeholder="09XXXXXXXXX" required>
+            <input type="tel" id="contactNumber" name="contact_no" placeholder="09XXXXXXXXX" required>
         </div>
         <div class="form-group">
             <label for="birthday">Birthday:</label>
@@ -174,7 +227,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <div class="form-group">
             <label for="city">City/Municipality:</label>
-            <input type="text" id="city" name="city" required>
+            <input type="text" id="city" name="city_municipality" required>
         </div>
         <div class="form-group">
             <label for="province">Province:</label>
@@ -190,7 +243,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <div class="form-group">
             <label for="tinNumber">TIN:</label>
-            <input type="text" id="tinNumber" name="tinNumber" required>
+            <input type="text" id="tinNumber" name="tin" required>
         </div>
         <div class="form-group">
             <label for="passportNumber">Passport Number:</label>

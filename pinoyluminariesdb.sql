@@ -96,6 +96,12 @@ CREATE TABLE `ofwloan_applications` (
   `application_date` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+ALTER TABLE `ofwloan_applications` 
+ADD COLUMN `messenger` varchar(100) DEFAULT NULL AFTER `email`,
+ADD COLUMN `birthday` date DEFAULT NULL AFTER `contact_no`,
+ADD COLUMN `citizenship` varchar(50) DEFAULT NULL AFTER `civil_status`,
+ADD COLUMN `employer_contact` varchar(20) DEFAULT NULL AFTER `employer_name`;
+
 -- --------------------------------------------------------
 
 --
