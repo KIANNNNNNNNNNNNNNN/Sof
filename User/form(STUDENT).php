@@ -13,7 +13,7 @@
                         <div class="logo-nav">
                             <img src="images/image 1.png" alt="Pinoy Luminaries Logo" class="logo">
                             <nav>
-                                <a href="account.html" class="active">HOME</a>
+                                <a href="account.php" class="active">HOME</a>
                             </nav>
                     </header>
 

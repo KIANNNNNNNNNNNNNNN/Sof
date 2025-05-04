@@ -83,7 +83,7 @@ function closeModal() {
 // Function to handle card redirects
 function redirectToForm(cardType) {
     const type = cardType.toLowerCase(); // Keep it lowercase
-    window.location.href = `form(${type}).html`; // Use correct naming convention
+    window.location.href = `form(${type}).php`; // Use correct naming convention
 }
 
 // Event listeners
@@ -125,5 +125,5 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 document.getElementById('dashboard').addEventListener('click', function() {
-    window.location.href = 'dashboard.html'; 
+    window.location.href = 'dashboard.php'; 
 });

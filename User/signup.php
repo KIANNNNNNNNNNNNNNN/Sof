@@ -1,41 +1,69 @@
 <?php
-session_start(); // Start the session to store success message
+session_start(); // Start the session to store success or error messages
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $host = "localhost";
-    $dbname = "pinoyluminariesdb";  // Or change to "signup" if needed
+    // Database connection details
+    $host = "127.0.0.1";
+    $dbname = "pinoyluminariesdb";
     $username = "root";
     $password = "";
 
     $conn = new mysqli($host, $username, $password, $dbname);
 
+    // Check database connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $name = $_POST['name'] ?? '';
-    $email = $_POST['email'] ?? '';
+    // Retrieve and sanitize input values
+    $name = trim($_POST['name'] ?? '');
+    $email = trim($_POST['email'] ?? '');
     $password1 = $_POST['password'] ?? '';
     $password2 = $_POST['confirmPassword'] ?? '';
 
-    if ($password1 !== $password2) {
+    // Validation
+    if (empty($name) || empty($email) || empty($password1) || empty($password2)) {
+        $error = "All fields are required.";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error = "Invalid email format.";
+    } elseif ($password1 !== $password2) {
         $error = "Passwords do not match.";
+    } elseif (strlen($password1) < 6) {
+        $error = "Password must be at least 6 characters long.";
     } else {
-        $hashedPassword = password_hash($password1, PASSWORD_DEFAULT);
-        $stmt = $conn->prepare("INSERT INTO users_signedup (name, email, password) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss", $name, $email, $hashedPassword);
+        // Check if the email already exists in the database
+        $stmt = $conn->prepare("SELECT id FROM users_signedup WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $stmt->store_result();
 
-        if ($stmt->execute()) {
-            $_SESSION['signup_success'] = "Signup successful!";
-            header("Location: signup.php"); // Redirect to display the success alert
-            exit;
+        if ($stmt->num_rows > 0) {
+            $error = "Email is already registered.";
         } else {
-            $_SESSION['error'] = "Error: " . $stmt->error . " | SQL Error: " . $conn->error;
-            header("Location: signup.php"); // Redirect to show error
-            exit;
+            // Hash the password
+            $hashedPassword = password_hash($password1, PASSWORD_DEFAULT);
+
+            // Insert the user into the database
+            $stmt = $conn->prepare("INSERT INTO users_signedup (name, email, password) VALUES (?, ?, ?)");
+            $stmt->bind_param("sss", $name, $email, $hashedPassword);
+
+            if ($stmt->execute()) {
+                $_SESSION['signup_success'] = "Signup successful! Please log in.";
+                header("Location: login.php"); // Redirect to login.php after successful sign-up
+                exit;
+            } else {
+                $error = "Error: " . $stmt->error;
+            }
         }
 
         $stmt->close();
+    }
+
+    // Store error message in session if validation fails
+    if (isset($error)) {
+        $_SESSION['error'] = $error;
+        header("Location: signup.php"); // Redirect to show the error alert
+        exit;
     }
 
     $conn->close();
