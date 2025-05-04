@@ -133,22 +133,22 @@ $conn->close();
                 title: 'Admin Login Successful!',
                 icon: 'success',
                 confirmButtonText: 'Okay',
-                confirmButtonColor: '#28a745' // Green color for the button
+                confirmButtonColor: '#28a745'
             }).then(() => {
-                window.location.href = '../admin/dashboard.php'; // Redirect to admin dashboard
+                window.location.href = '../admin/dashboard.php'; // Admin redirect remains the same
             });
         <?php elseif ($user_role == 'user'): ?>
             Swal.fire({
                 title: 'Login Successful!',
                 icon: 'success',
                 confirmButtonText: 'Okay',
-                confirmButtonColor: '#28a745' // Green color for the button
+                confirmButtonColor: '#28a745'
             }).then(() => {
-                window.location.href = '../account/account.php'; // Redirect to user account page
+                window.location.href = 'account.php'; // Updated path to account.php
             });
         <?php endif; ?>
     <?php endif; ?>
-</script>
+    </script>
 
 </body>
 </html>
