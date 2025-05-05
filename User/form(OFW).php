@@ -481,7 +481,7 @@ if ($stmt->execute()) {
         </div>
     </div>
     <div class="step-navigation">
-        <button type="submit" class="submit-btn">Submit</button>
+        <button type="submit" class="submit-btn">Next</button>
     </div>
 </form>
 </div>

@@ -68,10 +68,8 @@ $result = $conn->query($sql);
             <thead>
                 <tr>
                     <th>APPLICATION NO.</th>
-                    <th>DETAILS</th>
                     <th>STATUS</th>
                     <th>DATE</th>
-                    <th>ACTION</th>
                 </tr>
             </thead>
             <tbody>
@@ -79,10 +77,8 @@ $result = $conn->query($sql);
                     <?php while ($row = $result->fetch_assoc()): ?>
                         <tr>
                             <td><?php echo htmlspecialchars($row['id']); ?></td>
-                            <td><?php echo htmlspecialchars($row['loan_purpose']); ?></td>
                             <td><?php echo htmlspecialchars($row['status']); ?></td>
                             <td><?php echo htmlspecialchars($row['application_date']); ?></td>
-                            <td><a href="#">View</a></td>
                         </tr>
                     <?php endwhile; ?>
                 <?php else: ?>
